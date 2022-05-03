@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo:5.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: matias
+      MONGO_INITDB_ROOT_PASSWORD: matias
+      MONGO_INITDB_DATABASE: admin
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
